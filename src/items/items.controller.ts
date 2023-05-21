@@ -16,30 +16,30 @@ export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
   @Get()
-  findAll(): Item[] {
+  findAll(): Promise<Item[]> {
     return this.itemsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Item {
+  findOne(@Param('id') id: string): Promise<Item> {
     return this.itemsService.findOne(id);
   }
 
   @Post()
-  create(@Body() createItemDto: CreateItemDto): string {
-    return `Name: ${createItemDto.name}, Desc: ${createItemDto.description}, Qty: ${createItemDto.qty}`;
+  create(@Body() createItemDto: CreateItemDto): Promise<Item> {
+    return this.itemsService.create(createItemDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number): string {
-    return `Delete ${id}`;
+  delete(@Param('id') id: string): Promise<Item> {
+    return this.itemsService.delete(id);
   }
 
   @Put(':id')
   update(
     @Body() updateItemDto: CreateItemDto,
-    @Param('id') id: number,
-  ): string {
-    return `Update ${id} - Name: ${updateItemDto.name}, Desc: ${updateItemDto.description}, Qty: ${updateItemDto.qty}`;
+    @Param('id') id: string,
+  ): Promise<Item> {
+    return this.itemsService.update(id, updateItemDto);
   }
 }
